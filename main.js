@@ -81,7 +81,12 @@ let formBook = Vue.component('formBook', {
             }
         },
         cancel(){
-            this.$router.push('../')
+            if(this.$route.params['id']){
+                this.$router.push('/view/'+this.id)
+            }
+            else{
+                this.$router.push('/') 
+            }
         }
     },
     mounted(){
@@ -154,20 +159,21 @@ let book = Vue.component('book', {
 let all = Vue.component('all', {
     template: `
         <div style="width: 100%">
-            <v-container fluid>
-                <v-progress-circular v-if="loading"
-                :size="70"
-                :width="7"
-                color="blue"
-                indeterminate
-                ></v-progress-circular>
                 <v-layout row wrap justify-center>
                     <v-flex xs12>
-                        <v-card dark color="primary">
+                        <v-card dark color="primary" style="margin-bottom: 1rem">
                             <v-card-text class="px-0">Add a book <v-btn flat small @click="$router.push('/create')">Now !<v-icon>add</v-icon></v-btn></v-card-text>
                         </v-card>
                     </v-flex>    
                 </v-layout>
+				
+				<v-container fluid>
+				<v-progress-circular v-if="loading"
+				:size="70"
+				:width="7"
+				color="blue"
+				indeterminate
+				></v-progress-circular>
                 <v-layout row wrap align-center v-if="!loading">
                     <v-card :key="i" v-for="(book, i) in books" style="margin: 0.5rem">
                         <v-img
